@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.Networking;
+using Newtonsoft.Json;
 
 namespace TestChunkUpload
 {
@@ -26,8 +27,6 @@ namespace TestChunkUpload
                 string outs = await response.Content.ReadAsStringAsync();
                 Url_Parse upload = new Url_Parse();
                 upload = JsonUtility.FromJson<Url_Parse>(outs);
-
-                Debug.Log(upload.upload_url);
                 return upload.upload_url;
                 
             }
@@ -41,11 +40,9 @@ namespace TestChunkUpload
         public static async void Run() {
             string fileName = "./Assets/Scripts/assembly_key.json";
             Json_Parse jfile = new Json_Parse();
+            AI_Parse parsed = new AI_Parse();
             string jsonString = System.IO.File.ReadAllText(fileName);
             jfile = JsonUtility.FromJson<Json_Parse>(jsonString);
-            // jsonString = jsonString.Remove(0, 3);
-            // JObject obj = JObject.Parse(jsonString);
-            // string name = (string) obj["key"];
             Debug.Log(jfile.key);
             // HttpClient is normally created once, then used for all message sending
             HttpClient client = new HttpClient();
@@ -54,6 +51,33 @@ namespace TestChunkUpload
             string jsonResult = await SendFile(client, @"./Assets/Scripts/output.wav");
             // string jsonResult =  SendFile(client, @"./Assets/Scripts/output.wav").Result;
             Debug.Log("url received!!!!");
+            Debug.Log(jsonResult);
+
+            var json = new {audio_url = jsonResult};
+            StringContent payload = new StringContent(JsonConvert.SerializeObject(json), Encoding.UTF8, "./json");
+
+            // submitting upload for transcription
+            HttpResponseMessage response = await client.PostAsync("https://api.assemblyai.com/v2/transcript", payload);
+            response.EnsureSuccessStatusCode();
+
+            var responseJson = await response.Content.ReadAsStringAsync();
+            parsed = JsonUtility.FromJson<AI_Parse>(responseJson);
+            Debug.Log(parsed.status); //debug
+
+            // submitting gets till completed
+            string endpoint = "https://api.assemblyai.com/v2/transcript/" + parsed.id;
+
+            while((parsed.status != "completed" && (parsed.status != "error"))) {
+                response = await client.GetAsync(endpoint); //GET REQUEST
+                response.EnsureSuccessStatusCode();
+                responseJson = await response.Content.ReadAsStringAsync();
+                parsed = JsonUtility.FromJson<AI_Parse>(responseJson);
+                Debug.Log("Waiting");
+            }
+            Debug.Log(parsed.status);
+            Debug.Log(responseJson);
+            Debug.Log(parsed.text);
+
         }
 
     }
