@@ -37,7 +37,7 @@ namespace TestChunkUpload
         }
 
 
-        public static async void Run() {
+        public static async Task<string> Run() {
             string fileName = "./Assets/Scripts/assembly_key.json";
             Json_Parse jfile = new Json_Parse();
             AI_Parse parsed = new AI_Parse();
@@ -53,7 +53,7 @@ namespace TestChunkUpload
             Debug.Log("url received!!!!");
             Debug.Log(jsonResult);
 
-            var json = new {audio_url = jsonResult};
+            var json = new {audio_url = jsonResult, punctuate = false};
             StringContent payload = new StringContent(JsonConvert.SerializeObject(json), Encoding.UTF8, "./json");
 
             // submitting upload for transcription
@@ -74,10 +74,10 @@ namespace TestChunkUpload
                 parsed = JsonUtility.FromJson<AI_Parse>(responseJson);
                 Debug.Log("Waiting");
             }
-            Debug.Log(parsed.status);
-            Debug.Log(responseJson);
-            Debug.Log(parsed.text);
-
+            // Debug.Log(parsed.status);
+            // Debug.Log(responseJson);
+            // Debug.Log(parsed.text);
+            return parsed.text;
         }
 
     }

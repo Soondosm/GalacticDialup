@@ -8,7 +8,7 @@ public class Read_Input : MonoBehaviour {
      void Start() {}
      void Update () {}
      
-    void OnGUI()
+    async void OnGUI()
     {
          if (GUI.Button(new Rect(10,10,60,50),"Record"))
      { 
@@ -17,8 +17,8 @@ public class Read_Input : MonoBehaviour {
      if (GUI.Button(new Rect(10,70,60,50),"Save"))
      {
          SavWav.Save("output", myAudioClip);
-         TestChunkUpload.Transcribe_Input.Run();
- 
+         string input = await TestChunkUpload.Transcribe_Input.Run();
+        Debug.Log(input);
  //        audio.Play();
          }
     }
