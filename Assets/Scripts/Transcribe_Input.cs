@@ -6,11 +6,13 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.Networking;
 
 namespace TestChunkUpload
 {
     public static class Transcribe_Input
     {
+        
         private static async Task<string> SendFile(HttpClient client, string filePath) {
             try {
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "upload");
@@ -22,16 +24,21 @@ namespace TestChunkUpload
 
                 HttpResponseMessage response = await client.SendAsync(request);
                 string outs = await response.Content.ReadAsStringAsync();
-                return outs;
+                Url_Parse upload = new Url_Parse();
+                upload = JsonUtility.FromJson<Url_Parse>(outs);
+
+                Debug.Log(upload.upload_url);
+                return upload.upload_url;
+                
             }
             catch (Exception ex) {
-                System.Console.WriteLine($"Exception: {ex.Message}");
+                Debug.Log($"Exception: {ex.Message}");
                 throw;
             }
         }
 
 
-        public static void Run() {
+        public static async void Run() {
             string fileName = "./Assets/Scripts/assembly_key.json";
             Json_Parse jfile = new Json_Parse();
             string jsonString = System.IO.File.ReadAllText(fileName);
@@ -44,26 +51,10 @@ namespace TestChunkUpload
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://api.assemblyai.com/v2/");
             client.DefaultRequestHeaders.Add("authorization", jfile.key);
-
-            // string jsonResult = SendFile(client, @"./Assets/Scripts/output.wav").Result;
-            // Debug.Log(jsonResult);
+            string jsonResult = await SendFile(client, @"./Assets/Scripts/output.wav");
+            // string jsonResult =  SendFile(client, @"./Assets/Scripts/output.wav").Result;
+            Debug.Log("url received!!!!");
         }
-
-        // static void Main(string[] args) {
-        //     string fileName = "assembly_key.json";
-        //     string jsonString = System.IO.File.ReadAllText(fileName);
-        //     System.Console.WriteLine(jsonString);
-        //     // HttpClient is normally created once, then used for all message sending
-        //     HttpClient client = new HttpClient();
-        //     client.BaseAddress = new Uri("https://api.assemblyai.com/v2/");
-        //     client.DefaultRequestHeaders.Add("authorization", "YOUR-API-TOKEN");
-
-        //     string jsonResult = SendFile(client, @"./output.wav").Result;
-        //     System.Console.WriteLine(jsonResult);
-        // }
-
-
-        
 
     }
 

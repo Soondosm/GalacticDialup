@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
-
-public class python_manager : MonoBehaviour
+public class Url_Parse
 {
-    
+    public string upload_url;
 }
