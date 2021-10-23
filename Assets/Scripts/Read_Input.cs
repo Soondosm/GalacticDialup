@@ -17,6 +17,7 @@ public class Read_Input : MonoBehaviour {
      if (GUI.Button(new Rect(10,70,60,50),"Save"))
      {
          SavWav.Save("output", myAudioClip);
+         TestChunkUpload.Transcribe_Input.Run();
  
  //        audio.Play();
          }
