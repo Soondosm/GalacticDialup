@@ -25,6 +25,7 @@ public class Read_Input : MonoBehaviour {
         string input = await TestChunkUpload.Transcribe_Input.Run();
         Debug.Log(input);
         PlayerMovement.ChangeInput(input);
+        PlayerMovement2.ChangeInput(input);
         GameObject.Find ("Circle").transform.localScale = new Vector3(0, 0, 0); // hide 
 
  //        audio.Play();

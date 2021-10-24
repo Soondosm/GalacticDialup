@@ -47,7 +47,10 @@ namespace TestChunkUpload
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://api.assemblyai.com/v2/");
             client.DefaultRequestHeaders.Add("authorization", jfile.key);
-            // client.DefaultRequestHeaders.Add("authorization", "bddb069917184c3ea468ac44a52f9879");
+
+//
+
+
             string jsonResult = await SendFile(client, Application.dataPath + "/output.wav");
             Debug.Log("url received!!!!");
             Debug.Log(jsonResult);
