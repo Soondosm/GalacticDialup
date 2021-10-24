@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class ToMain : MonoBehaviour
 {
     public void BackToMain() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex -2); // back to title screen
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex -3); // back to title screen
 
     }
 }

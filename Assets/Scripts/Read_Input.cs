@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 // using FrostweepGames.Plugins.Native;
 
 public class Read_Input : MonoBehaviour {
@@ -24,8 +25,15 @@ public class Read_Input : MonoBehaviour {
         GameObject.Find ("Circle").transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // show 
         string input = await TestChunkUpload.Transcribe_Input.Run();
         Debug.Log(input);
-        PlayerMovement.ChangeInput(input);
-        // PlayerMovement2.ChangeInput(input);
+        if(SceneManager.GetActiveScene().buildIndex == 1) {
+            PlayerMovement.ChangeInput(input);
+            Debug.Log("in lvl1");
+        } else {
+            Debug.Log("in level2");
+            PlayerMovement2.ChangeInput(input);
+        }
+        
+        // 
         GameObject.Find ("Circle").transform.localScale = new Vector3(0, 0, 0); // hide 
 
  //        audio.Play();
