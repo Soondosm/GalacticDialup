@@ -14,11 +14,12 @@ public class Read_Input : MonoBehaviour {
      { 
          myAudioClip = Microphone.Start ( null, false, 10, 44100 );
      }
-     if (GUI.Button(new Rect(10,70,60,50),"Save"))
+     if (GUI.Button(new Rect(10,70,60,50),"Send"))
      {
          SavWav.Save("output", myAudioClip);
          string input = await TestChunkUpload.Transcribe_Input.Run();
         Debug.Log(input);
+        PlayerMovement.ChangeInput(input);
  //        audio.Play();
          }
     }
