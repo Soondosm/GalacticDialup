@@ -52,8 +52,6 @@ public class PlayerMovement : MonoBehaviour
 
 
 //
-
-
         // transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
         // if(Vector3.Distance(transform.position, movePoint.position) <= .05f) {
             
@@ -67,15 +65,8 @@ public class PlayerMovement : MonoBehaviour
         //             movePoint.position += new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
         //         }
         //     }
-
-
 //
 
-
-
-
-        // float horizontalInput = Input.GetAxisRaw("Horizontal"); // will give something between -1 and 1
-        // float verticalInput = Input.GetAxisRaw("Vertical");
         // anim.SetBool("moving", false);
 
         // } 
@@ -85,10 +76,11 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-     void OnCollisionEnter(Collision collision) {
-                if(collision.gameObject.name == "Portal")
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            }
+    //  void OnCollisionEnter(Collision collision) {
+    //      Debug.Log(collision.gameObject.name);
+    //             if(collision.gameObject.name == "Portal")
+    //                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    //         }
 
     public static void ChangeInput(string new_val) {
         INPUT = new_val;
