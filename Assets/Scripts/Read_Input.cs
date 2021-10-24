@@ -13,12 +13,12 @@ public class Read_Input : MonoBehaviour {
      
     async void OnGUI()
     {
-         if (GUI.Button(new Rect(10,10,60,50),"Record"))
+         if (GUI.Button(new Rect(10,10,120,100),"Record"))
      { 
          myAudioClip = Microphone.Start ( null, false, 10, 44100 );
         //  myAudioClip = AudioClip.Create("output", 44100, 1, 44100, false);
      }
-     if (GUI.Button(new Rect(10,70,60,50),"Send"))
+     if (GUI.Button(new Rect(10,130,120,100),"Send"))
      {
         SavWav.Save("output", myAudioClip);
         GameObject.Find ("Circle").transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // show 

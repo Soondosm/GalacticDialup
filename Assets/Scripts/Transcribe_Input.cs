@@ -38,18 +38,17 @@ namespace TestChunkUpload
 
 
         public static async Task<string> Run() {
-            string fileName = "./Assets/Scripts/assembly_key.json";
+            string fileName = Application.dataPath + "/assembly_key.json";
             Json_Parse jfile = new Json_Parse();
             AI_Parse parsed = new AI_Parse();
             string jsonString = System.IO.File.ReadAllText(fileName);
             jfile = JsonUtility.FromJson<Json_Parse>(jsonString);
-            Debug.Log(jfile.key);
-            // HttpClient is normally created once, then used for all message sending
+        
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://api.assemblyai.com/v2/");
             client.DefaultRequestHeaders.Add("authorization", jfile.key);
-            string jsonResult = await SendFile(client, @"./Assets/Scripts/output.wav");
-            // string jsonResult =  SendFile(client, @"./Assets/Scripts/output.wav").Result;
+            // client.DefaultRequestHeaders.Add("authorization", "bddb069917184c3ea468ac44a52f9879");
+            string jsonResult = await SendFile(client, Application.dataPath + "/output.wav");
             Debug.Log("url received!!!!");
             Debug.Log(jsonResult);
 
@@ -77,7 +76,7 @@ namespace TestChunkUpload
             // Debug.Log(parsed.status);
             // Debug.Log(responseJson);
             // Debug.Log(parsed.text);
-            System.IO.File.Delete(@"./Assets/Scripts/output.wav");
+            System.IO.File.Delete(Application.dataPath + "/output.wav");
             return parsed.text;
         }
 
