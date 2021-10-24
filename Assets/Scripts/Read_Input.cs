@@ -20,6 +20,7 @@ public class Read_Input : MonoBehaviour {
          string input = await TestChunkUpload.Transcribe_Input.Run();
         Debug.Log(input);
         PlayerMovement.ChangeInput(input);
+        
  //        audio.Play();
          }
     }

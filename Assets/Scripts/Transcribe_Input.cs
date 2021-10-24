@@ -77,6 +77,7 @@ namespace TestChunkUpload
             // Debug.Log(parsed.status);
             // Debug.Log(responseJson);
             // Debug.Log(parsed.text);
+            System.IO.File.Delete(@"./Assets/Scripts/output.wav");
             return parsed.text;
         }
 
