@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,10 +10,6 @@ public class PlayerMovement : MonoBehaviour
   public Transform movePoint;
   public LayerMask whatStopsMovement;
 //   public Animator anim;
-  public string up = "up";
-  public string down = "down";
-  public string right = "right";
-  public string left = "left";
 
   public static string INPUT = "";
 
@@ -87,6 +84,11 @@ public class PlayerMovement : MonoBehaviour
         // }
 
     }
+
+     void OnCollisionEnter(Collision collision) {
+                if(collision.gameObject.name == "Portal")
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
 
     public static void ChangeInput(string new_val) {
         INPUT = new_val;
